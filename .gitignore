@@ -9,3 +9,5 @@ logs/
 conv_logs/
 artifacts/
 EOF
+.vscode/
+.claude/
