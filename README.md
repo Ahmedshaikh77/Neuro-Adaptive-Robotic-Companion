@@ -322,7 +322,7 @@ Edit `src/emotion_engine.py`:
 
 ---
 
-## ⏱ Performance Expectations
+##  Performance Expectations
 
 ### Training Time (rough)
 
