@@ -1,80 +1,101 @@
-# Emotion-Aware Companion System
+````md
+# NeuroBot — Emotion-Aware Neuro-Adaptive Robotic Companion
 
-A comprehensive mental health support system that combines real-time emotion detection with voice-based conversation to provide supportive companionship between therapy sessions.
+NeuroBot is an **emotion-aware companion system** that combines real-time facial emotion recognition with a voice-based conversational agent to offer **supportive check-ins between therapy sessions**. It’s built to be *helpful, transparent, and safety-first*—not a replacement for professional care.
 
-## Features
+> **Scope note:** This is a research/educational prototype focused on human-centered interaction, logging, and safe supportive dialogue.
 
-- **Emotion Classification**: ResNet18-based emotion classifier trained on FER-2013
-- **Real-time Detection**: MediaPipe face detection + emotion recognition from webcam
-- **Voice Interface**: Speech-to-text (STT) and text-to-speech (TTS) for natural conversation
-- **LLM Integration**: Supportive, empathetic responses with safety guardrails
-- **Session Logging**: Comprehensive emotion and conversation tracking with JSON reports
-- **Safety First**: Built-in crisis detection and appropriate resource recommendations
+---
 
-## Safety & Ethics
+## 📋 Study Surveys (Pre / Post)
 
-This system is designed as a **supportive companion** and:
-- Does NOT claim to be a therapist
-- Does NOT provide medical diagnoses or clinical advice
-- DOES include safety protocols for crisis situations
-- DOES encourage seeking professional help when needed
-- DOES maintain logs for potential review with healthcare providers
+Please use the following Qualtrics links:
 
-## Project Structure
+- **NeuroBot Pre Survey:** https://duke.qualtrics.com/jfe/form/SV_emJ6kDeQnsUTdqe  
+- **NeuroBot Post Survey:** https://duke.qualtrics.com/jfe/form/SV_bq6jOtY851yhQgK  
 
-```
+*(If these links require Duke access, participants may need to be signed in.)*
+
+---
+
+## ✨ Key Features
+
+- **Emotion Classification:** ResNet18-based classifier trained on FER-2013  
+- **Real-time Inference:** MediaPipe face detection + webcam emotion recognition  
+- **Voice Experience:** Speech-to-Text (STT) + Text-to-Speech (TTS) for natural interaction  
+- **LLM Integration (Optional):** Empathetic, supportive responses with safety guardrails  
+- **Session Logging:** Emotion + conversation logs, plus structured JSON session reports  
+- **Safety First:** Crisis keyword detection with appropriate resource guidance  
+
+---
+
+## 🛡️ Safety & Ethics
+
+NeuroBot is designed as a **supportive companion**:
+
+- ✅ Does **not** claim to be a therapist  
+- ✅ Does **not** provide medical diagnoses or clinical advice  
+- ✅ Includes **basic crisis detection** and encourages **professional help**  
+- ✅ Logs sessions for evaluation and improvement (see `logs/`)  
+
+If you or someone else is in immediate danger, call local emergency services. In the U.S., you can also call/text **988** for the Suicide & Crisis Lifeline.
+
+---
+
+## 📁 Project Structure
+
+```text
 final_project/
-├── requirements.txt          # Python dependencies
-├── README.md                 # This file
-├── artifacts/                # Model checkpoints and confusion matrices
+├── requirements.txt
+├── README.md
+├── artifacts/                 # model checkpoints + confusion matrices
 ├── logs/
-│   ├── sessions/            # Emotion CSV logs
-│   └── reports/             # JSON session reports
-├── conv_logs/               # Conversation CSV logs
+│   ├── sessions/              # emotion CSV logs
+│   └── reports/               # JSON session reports
+├── conv_logs/                 # conversation CSV logs
 └── src/
     ├── __init__.py
-    ├── config.py            # Configuration and paths
-    ├── fer_dataset.py       # FER-2013 dataset loader
-    ├── train_fer.py         # Training script
-    ├── eval_fer.py          # Evaluation script
-    ├── emotion_engine.py    # Real-time emotion detection
-    ├── voice_io.py          # STT and TTS
-    ├── conversation_manager.py  # LLM conversation management
-    ├── session_logger.py    # Logging and reporting
-    ├── demo_webcam_only.py  # Webcam-only demo
-    └── demo_voice_session.py  # Full voice session demo
-```
+    ├── config.py              # configuration and paths
+    ├── fer_dataset.py         # FER-2013 dataset loader
+    ├── train_fer.py           # training script
+    ├── eval_fer.py            # evaluation script
+    ├── emotion_engine.py      # real-time emotion detection
+    ├── voice_io.py            # STT and TTS
+    ├── conversation_manager.py# LLM conversation management
+    ├── session_logger.py      # logging and reporting
+    ├── demo_webcam_only.py    # webcam-only demo
+    └── demo_voice_session.py  # full voice session demo
+````
 
-## Quick Start
+---
 
-### 1. Create Virtual Environment (Recommended)
+## 🚀 Quick Start
+
+### 1) Create a Virtual Environment (Recommended)
 
 ```bash
-# Create virtual environment
 python3 -m venv venv
-
-# Activate it
-source venv/bin/activate  # On macOS/Linux
-# OR
-venv\Scripts\activate     # On Windows
+source venv/bin/activate          # macOS/Linux
+# venv\Scripts\activate           # Windows
 ```
 
-### 2. Install Dependencies
+### 2) Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**Note on PyAudio**: If you encounter issues installing PyAudio:
-- **macOS**: `brew install portaudio` then `pip install pyaudio`
-- **Ubuntu/Debian**: `sudo apt-get install portaudio19-dev` then `pip install pyaudio`
-- **Windows**: Download pre-built wheel from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio)
+**PyAudio note (if needed):**
 
-### 3. Prepare FER Dataset
+* **macOS:** `brew install portaudio` then `pip install pyaudio`
+* **Ubuntu/Debian:** `sudo apt-get install portaudio19-dev` then `pip install pyaudio`
+* **Windows:** install a pre-built wheel (common approach)
+
+### 3) Prepare FER-2013 Dataset
 
 The system expects a folder-based dataset structure:
 
-```
+```text
 data/
   archive/
     train/
@@ -95,9 +116,9 @@ data/
       surprise/*.jpg
 ```
 
-You can download the FER-2013 dataset from [Kaggle](https://www.kaggle.com/datasets/msambare/fer2013) and organize it into this structure, or use any similar emotion dataset with the same folder layout.
+You can download FER-2013 from Kaggle and organize it into this structure (or use a similar dataset with the same folder layout).
 
-### 4. Set Up OpenAI API Key (Optional)
+### 4) (Optional) Set Up OpenAI API Key
 
 For LLM-powered conversations, set your OpenAI API key:
 
@@ -107,209 +128,221 @@ export OPENAI_API_KEY="your-api-key-here"
 
 If no API key is provided, the system will use fallback responses.
 
-## Usage
+---
 
-### 1. Train the Emotion Classifier
+## 🧪 Usage
 
-Train ResNet18 on FER dataset (adjust epochs as needed):
+### 1) Train the Emotion Classifier
 
 ```bash
-# Quick test (1 epoch - for testing only)
+# Quick test (1 epoch)
 python -m src.train_fer --data-root data/archive --epochs 1 --batch-size 64
 
 # Full training (30 epochs - recommended)
 python -m src.train_fer --data-root data/archive --epochs 30 --batch-size 64 --lr 0.001
 ```
 
-**Training Output**:
-- Model saved to: `artifacts/best_fer_resnet.pt`
-- Best validation accuracy displayed at completion
+**Training Output**
 
-**Expected Performance**:
-- Val accuracy: ~60-70% after 30 epochs (FER-2013 is challenging)
+* Model saved to: `artifacts/best_fer_resnet.pt`
+* Best validation accuracy printed at completion
 
-### 2. Evaluate the Model
+**Expected Performance**
 
-Evaluate on test set and generate metrics:
+* FER-2013 is challenging; ~60–70% after ~30 epochs is common.
+
+### 2) Evaluate the Model
 
 ```bash
 python -m src.eval_fer --data-root data/archive --checkpoint artifacts/best_fer_resnet.pt
 ```
 
-**Evaluation Output**:
-- Test accuracy
-- Per-class precision, recall, F1-score
-- Confusion matrix saved as:
-  - `artifacts/confusion_matrix.npy` (NumPy array)
-  - `artifacts/confusion_matrix.png` (visualization)
+**Evaluation Output**
 
-### 3. Run Webcam-Only Demo
+* Test accuracy + per-class metrics
+* Confusion matrix saved as:
 
-Test real-time emotion detection:
+  * `artifacts/confusion_matrix.npy`
+  * `artifacts/confusion_matrix.png`
+
+### 3) Run Webcam-Only Demo
 
 ```bash
 python -m src.demo_webcam_only
 ```
 
-**Controls**:
-- Press `q` to quit
-- Green bounding box shows detected face
-- Emotion label, confidence, valence, and arousal displayed
+**Controls**
 
-### 4. Run Full Voice Companion Session
+* Press `q` to quit
+* Overlay shows detected face bounding box + emotion label + confidence + valence/arousal
 
-Experience the complete system:
+### 4) Run Full Voice Companion Session
 
 ```bash
 python -m src.demo_voice_session
 ```
 
-**Session Flow**:
+**Session Flow**
+
 1. System greets you via TTS
-2. Webcam captures your emotion (3-second burst)
-3. Microphone listens for your speech
-4. LLM generates supportive response
+2. Webcam captures emotion (short burst)
+3. Microphone listens for speech
+4. LLM generates supportive response (if configured)
 5. TTS speaks the response
-6. Repeat until you say "goodbye" or "quit"
+6. Repeat until exit
 
-**Exit**:
-- Say "goodbye", "quit", or "exit"
-- Press `q` in webcam window
-- Ctrl+C to force quit
+**Exit**
 
-**Session Output**:
-- Emotion log: `logs/sessions/session_<timestamp>_emotion.csv`
-- Conversation log: `conv_logs/session_<timestamp>_conversation.csv`
-- JSON report: `logs/reports/session_<timestamp>_report.json`
+* Say: “goodbye”, “quit”, or “exit”
+* Press `q` in webcam window
+* Ctrl+C to force quit
 
-## Architecture
+**Session Output**
+
+* Emotion log: `logs/sessions/session_<timestamp>_emotion.csv`
+* Conversation log: `conv_logs/session_<timestamp>_conversation.csv`
+* JSON report: `logs/reports/session_<timestamp>_report.json`
+
+---
+
+## 🧠 Architecture
 
 ### Emotion Detection Pipeline
 
-1. **Face Detection**: MediaPipe face detection (short-range model)
-2. **Preprocessing**: Crop face → grayscale → resize to 224x224 → 3-channel → ImageNet normalize
-3. **Classification**: ResNet18 → softmax → emotion label
-4. **Valence/Arousal**: Hard-coded mapping from emotion labels
-5. **Smoothing**: Majority voting over last 5 frames
+1. **Face Detection:** MediaPipe (short-range model)
+2. **Preprocessing:** crop → grayscale → resize 224×224 → 3-channel → ImageNet normalize
+3. **Classification:** ResNet18 → softmax → emotion label
+4. **Valence/Arousal:** mapping from emotion labels
+5. **Smoothing:** majority voting over recent frames
 
 ### Conversation Flow
 
-1. **Emotion Context**: Current emotion state added to LLM system prompt
-2. **Safety Check**: Keyword detection for crisis situations
-3. **LLM Call**: OpenAI API with conversation history
-4. **Response**: Warm, supportive 2-4 sentence reply
-5. **Logging**: Turn logged with timestamp, texts, and emotion state
+1. **Emotion Context:** current emotion state added to the system prompt
+2. **Safety Check:** keyword detection for crisis situations
+3. **LLM Call:** OpenAI API with conversation history (optional)
+4. **Response:** warm, supportive 2–4 sentence reply
+5. **Logging:** stored with timestamps + emotion state
 
 ### Safety Guardrails
 
 The system monitors for keywords related to:
-- Self-harm
-- Suicide
-- Harming others
-- Feeling unsafe
+
+* self-harm / suicide
+* harming others
+* feeling unsafe
 
 When detected, it:
-- Responds with high empathy
-- Provides crisis resources (988 Lifeline, emergency services)
-- Encourages reaching out to trusted people
-- Never provides harmful instructions
 
-## Customization
+* responds with empathy
+* provides crisis resources (e.g., U.S. 988 Lifeline)
+* encourages reaching out to trusted people or professionals
+* never provides harmful instructions
 
-### Switching to AffectNet
+---
 
-To use AffectNet or other emotion datasets:
+## 🔧 Customization
 
-1. Organize your dataset in the same folder structure:
-   ```
+### Switching to AffectNet (or Other Datasets)
+
+1. Organize your dataset similarly:
+
+   ```text
    data/affectnet/
-     train/
-       angry/*.jpg
-       ...
-     test/
-       angry/*.jpg
-       ...
+     train/<class>/*.jpg
+     test/<class>/*.jpg
    ```
-2. Update `FER_LABELS` in [config.py](src/config.py) if label set differs
-3. Update `EMOTION_VA_MAP` for your dataset's emotions
-4. Train with new dataset:
+2. Update label list and mapping in `src/config.py` (e.g., `FER_LABELS`, `EMOTION_VA_MAP`)
+3. Train with the new dataset:
+
    ```bash
    python -m src.train_fer --data-root data/affectnet --epochs 30
    ```
 
 ### Adjusting LLM Behavior
 
-Edit [conversation_manager.py](src/conversation_manager.py):
-- `SYSTEM_PROMPT`: Modify companion personality and guidelines
-- `SAFETY_KEYWORDS`: Add/remove crisis detection keywords
-- `model`: Change OpenAI model (e.g., "gpt-3.5-turbo", "gpt-4")
-- `temperature`: Adjust response creativity (0.0-1.0)
+Edit `src/conversation_manager.py`:
+
+* `SYSTEM_PROMPT`: companion personality + guidelines
+* `SAFETY_KEYWORDS`: crisis keyword list
+* `model`: choose OpenAI model
+* `temperature`: creativity (0.0–1.0)
 
 ### Emotion Smoothing
 
-Edit [emotion_engine.py](src/emotion_engine.py):
-- `smoothing_window`: Change number of frames for smoothing (default: 5)
+Edit `src/emotion_engine.py`:
 
-## Troubleshooting
+* `smoothing_window`: number of frames used for majority vote (default: 5)
+
+---
+
+## 🧯 Troubleshooting
 
 ### Webcam Not Opening
-- Check if another app is using the webcam
-- Try changing camera index in `cv2.VideoCapture(0)` to `1` or `2`
+
+* check if another app is using the webcam
+* try changing camera index in OpenCV (`0` → `1` → `2`)
 
 ### Microphone Issues
-- Run `python -m speech_recognition` to test microphone
-- Adjust `energy_threshold` in [voice_io.py](src/voice_io.py) if background noise is high
+
+* test microphone configuration
+* tune thresholds inside `src/voice_io.py` if background noise is high
 
 ### TTS Not Working
-- macOS: Should work out of the box
-- Linux: Install `espeak`: `sudo apt-get install espeak`
-- Windows: Should work out of the box
+
+* macOS: typically works out of the box
+* Linux: install `espeak` (`sudo apt-get install espeak`)
+* Windows: typically works out of the box
 
 ### Low Emotion Recognition Accuracy
-- Ensure good lighting for webcam
-- Face should be frontal and clearly visible
-- Train longer (30+ epochs)
-- Consider data augmentation or fine-tuning
+
+* improve lighting and keep face frontal
+* train longer (30+ epochs)
+* consider data augmentation or fine-tuning
+* try a higher-quality dataset like AffectNet
 
 ### LLM Not Responding
-- Check `OPENAI_API_KEY` is set correctly
-- Verify API key has credits
-- Check internet connection
-- Review API rate limits
 
-## Dataset Details
+* ensure `OPENAI_API_KEY` is set
+* confirm network access + rate limits
 
-### FER Dataset (Folder Structure)
-- **Format**: Images organized in folders by emotion class
-- **Classes**: 7 emotions (angry, disgust, fear, happy, neutral, sad, surprise)
-- **Splits**:
-  - Train: Used for training and validation (15% held out for val)
-  - Test: Separate test set for evaluation
-- **Input**: RGB images, resized to 224×224
-- **Challenge**: Varied quality, lighting, and pose variations
+---
+
+## 📚 Dataset Details
+
+### FER-2013 (Folder-Based)
+
+* **Classes:** 7 emotions (angry, disgust, fear, happy, neutral, sad, surprise)
+* **Splits:** train + test folders
+* **Input:** resized to 224×224
+* **Challenge:** varied lighting/pose + noisy labels
 
 ### Alternative: AffectNet
-- **Size**: 400,000+ images (larger, higher quality)
-- **Classes**: 8 emotions + valence/arousal annotations
-- **Advantage**: Better real-world performance
-- **Usage**: Organize in same folder structure and use `--data-root data/affectnet`
 
-## Performance Expectations
+* larger dataset and typically better real-world performance
+* can be used if organized into the same folder layout
 
-### Training Time
-- **CPU**: ~2-3 hours per epoch
-- **GPU (CUDA)**: ~10-15 minutes per epoch
-- **MPS (Apple Silicon)**: ~15-20 minutes per epoch
+---
+
+## ⏱️ Performance Expectations
+
+### Training Time (rough)
+
+* **CPU:** slow (can be hours per epoch depending on machine)
+* **GPU (CUDA):** typically much faster
+* **Apple Silicon (MPS):** often in between
 
 ### Accuracy
-- **FER-2013**: 60-70% test accuracy (state-of-the-art: ~73%)
-- **Real-time FPS**: 15-30 FPS (depends on device)
 
-## Citation
+* **FER-2013:** 60–70% is common; strong models can do ~70%+
+* **Real-time FPS:** depends on device and camera resolution
+
+---
+
+## 🧾 Citation
 
 If you use FER-2013, please cite:
 
-```
+```bibtex
 @inproceedings{goodfellow2013challenges,
   title={Challenges in representation learning: A report on three machine learning contests},
   author={Goodfellow, Ian J and Erhan, Dumitru and Carrier, Pierre Luc and Courville, Aaron and Mirza, Mehdi and Hamner, Ben and Cukierski, Will and Tang, Yichuan and Thaler, David and Lee, Dong-Hyun and others},
@@ -320,21 +353,21 @@ If you use FER-2013, please cite:
 }
 ```
 
-## License
+---
 
-This project is for educational and research purposes. The companion system is not a substitute for professional mental health care.
+## 📄 License
 
-## Support
+Educational and research use. NeuroBot is **not** a substitute for professional mental health care.
 
-For issues or questions:
-1. Check troubleshooting section above
-2. Review logs in `logs/` and `conv_logs/`
-3. Open an issue with error messages and system details
+---
 
-## Acknowledgments
+## 🙌 Acknowledgments
 
-- FER-2013 dataset from Kaggle
-- MediaPipe for face detection
-- PyTorch and torchvision for deep learning
-- OpenAI for LLM capabilities
-- SpeechRecognition and pyttsx3 for voice I/O
+* FER-2013 dataset (Kaggle distribution)
+* MediaPipe for face detection
+* PyTorch + torchvision for modeling
+* OpenAI (optional) for LLM capability
+* SpeechRecognition + pyttsx3 for voice I/O
+
+```
+```
