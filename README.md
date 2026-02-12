@@ -362,7 +362,7 @@ Educational and research use. NeuroBot is **not** a substitute for professional 
 
 ##  Acknowledgments
 
-* FER-2013 dataset (Kaggle distribution)
+* FER-2013 dataset
 * MediaPipe for face detection
 * PyTorch + torchvision for modeling
 * OpenAI (optional) for LLM capability
