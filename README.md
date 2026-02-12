@@ -6,7 +6,7 @@ NeuroBot is an **emotion-aware companion system** that combines real-time facial
 
 ---
 
-## 📋 Study Surveys (Pre / Post)
+##  Study Surveys (Pre / Post)
 
 Please use the following Qualtrics links:
 
