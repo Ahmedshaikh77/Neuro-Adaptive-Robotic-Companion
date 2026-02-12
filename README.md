@@ -1,4 +1,4 @@
-# NeuroBot — Emotion-Aware Neuro-Adaptive Robotic Companion
+# NeuroBot — Emotion Aware Neuro Adaptive Robotic Companion
 
 NeuroBot is an **emotion-aware companion system** that combines real-time facial emotion recognition with a voice-based conversational agent to offer **supportive check-ins between therapy sessions**. It's built to be *helpful, transparent, and safety-first*—not a replacement for professional care.
 
@@ -17,7 +17,7 @@ Please use the following Qualtrics links:
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - **Emotion Classification:** ResNet18-based classifier trained on FER-2013
 - **Real-time Inference:** MediaPipe face detection + webcam emotion recognition
@@ -28,20 +28,20 @@ Please use the following Qualtrics links:
 
 ---
 
-## 🛡️ Safety & Ethics
+##  Safety & Ethics
 
 NeuroBot is designed as a **supportive companion**:
 
-- ✅ Does **not** claim to be a therapist
-- ✅ Does **not** provide medical diagnoses or clinical advice
-- ✅ Includes **basic crisis detection** and encourages **professional help**
-- ✅ Logs sessions for evaluation and improvement (see `logs/`)
+-  Does **not** claim to be a therapist
+-  Does **not** provide medical diagnoses or clinical advice
+-  Includes **basic crisis detection** and encourages **professional help**
+-  Logs sessions for evaluation and improvement (see `logs/`)
 
 If you or someone else is in immediate danger, call local emergency services. In the U.S., you can also call/text **988** for the Suicide & Crisis Lifeline.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 final_project/
@@ -68,7 +68,7 @@ final_project/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1) Create a Virtual Environment (Recommended)
 
@@ -129,7 +129,7 @@ If no API key is provided, the system will use fallback responses.
 
 ---
 
-## 🧪 Usage
+##  Usage
 
 ### 1) Train the Emotion Classifier
 
@@ -204,7 +204,7 @@ python -m src.demo_voice_session
 
 ---
 
-## 🧠 Architecture
+##  Architecture
 
 ### Emotion Detection Pipeline
 
@@ -274,7 +274,7 @@ Edit `src/emotion_engine.py`:
 
 ---
 
-## 🧯 Troubleshooting
+##  Troubleshooting
 
 ### Webcam Not Opening
 
@@ -306,7 +306,7 @@ Edit `src/emotion_engine.py`:
 
 ---
 
-## 📚 Dataset Details
+##  Dataset Details
 
 ### FER-2013 (Folder-Based)
 
@@ -322,7 +322,7 @@ Edit `src/emotion_engine.py`:
 
 ---
 
-## ⏱️ Performance Expectations
+## ⏱ Performance Expectations
 
 ### Training Time (rough)
 
@@ -337,7 +337,7 @@ Edit `src/emotion_engine.py`:
 
 ---
 
-## 🧾 Citation
+##  Citation
 
 If you use FER-2013, please cite:
 
@@ -354,13 +354,13 @@ If you use FER-2013, please cite:
 
 ---
 
-## 📄 License
+##  License
 
 Educational and research use. NeuroBot is **not** a substitute for professional mental health care.
 
 ---
 
-## 🙌 Acknowledgments
+##  Acknowledgments
 
 * FER-2013 dataset (Kaggle distribution)
 * MediaPipe for face detection
