@@ -1,7 +1,6 @@
-````md
 # NeuroBot — Emotion-Aware Neuro-Adaptive Robotic Companion
 
-NeuroBot is an **emotion-aware companion system** that combines real-time facial emotion recognition with a voice-based conversational agent to offer **supportive check-ins between therapy sessions**. It’s built to be *helpful, transparent, and safety-first*—not a replacement for professional care.
+NeuroBot is an **emotion-aware companion system** that combines real-time facial emotion recognition with a voice-based conversational agent to offer **supportive check-ins between therapy sessions**. It's built to be *helpful, transparent, and safety-first*—not a replacement for professional care.
 
 > **Scope note:** This is a research/educational prototype focused on human-centered interaction, logging, and safe supportive dialogue.
 
@@ -11,8 +10,8 @@ NeuroBot is an **emotion-aware companion system** that combines real-time facial
 
 Please use the following Qualtrics links:
 
-- **NeuroBot Pre Survey:** https://duke.qualtrics.com/jfe/form/SV_emJ6kDeQnsUTdqe  
-- **NeuroBot Post Survey:** https://duke.qualtrics.com/jfe/form/SV_bq6jOtY851yhQgK  
+- **NeuroBot Pre Survey:** https://duke.qualtrics.com/jfe/form/SV_emJ6kDeQnsUTdqe
+- **NeuroBot Post Survey:** https://duke.qualtrics.com/jfe/form/SV_bq6jOtY851yhQgK
 
 *(If these links require Duke access, participants may need to be signed in.)*
 
@@ -20,12 +19,12 @@ Please use the following Qualtrics links:
 
 ## ✨ Key Features
 
-- **Emotion Classification:** ResNet18-based classifier trained on FER-2013  
-- **Real-time Inference:** MediaPipe face detection + webcam emotion recognition  
-- **Voice Experience:** Speech-to-Text (STT) + Text-to-Speech (TTS) for natural interaction  
-- **LLM Integration (Optional):** Empathetic, supportive responses with safety guardrails  
-- **Session Logging:** Emotion + conversation logs, plus structured JSON session reports  
-- **Safety First:** Crisis keyword detection with appropriate resource guidance  
+- **Emotion Classification:** ResNet18-based classifier trained on FER-2013
+- **Real-time Inference:** MediaPipe face detection + webcam emotion recognition
+- **Voice Experience:** Speech-to-Text (STT) + Text-to-Speech (TTS) for natural interaction
+- **LLM Integration (Optional):** Empathetic, supportive responses with safety guardrails
+- **Session Logging:** Emotion + conversation logs, plus structured JSON session reports
+- **Safety First:** Crisis keyword detection with appropriate resource guidance
 
 ---
 
@@ -33,10 +32,10 @@ Please use the following Qualtrics links:
 
 NeuroBot is designed as a **supportive companion**:
 
-- ✅ Does **not** claim to be a therapist  
-- ✅ Does **not** provide medical diagnoses or clinical advice  
-- ✅ Includes **basic crisis detection** and encourages **professional help**  
-- ✅ Logs sessions for evaluation and improvement (see `logs/`)  
+- ✅ Does **not** claim to be a therapist
+- ✅ Does **not** provide medical diagnoses or clinical advice
+- ✅ Includes **basic crisis detection** and encourages **professional help**
+- ✅ Logs sessions for evaluation and improvement (see `logs/`)
 
 If you or someone else is in immediate danger, call local emergency services. In the U.S., you can also call/text **988** for the Suicide & Crisis Lifeline.
 
@@ -65,7 +64,7 @@ final_project/
     ├── session_logger.py      # logging and reporting
     ├── demo_webcam_only.py    # webcam-only demo
     └── demo_voice_session.py  # full voice session demo
-````
+```
 
 ---
 
@@ -193,7 +192,7 @@ python -m src.demo_voice_session
 
 **Exit**
 
-* Say: “goodbye”, “quit”, or “exit”
+* Say: "goodbye", "quit", or "exit"
 * Press `q` in webcam window
 * Ctrl+C to force quit
 
@@ -368,6 +367,3 @@ Educational and research use. NeuroBot is **not** a substitute for professional 
 * PyTorch + torchvision for modeling
 * OpenAI (optional) for LLM capability
 * SpeechRecognition + pyttsx3 for voice I/O
-
-```
-```
