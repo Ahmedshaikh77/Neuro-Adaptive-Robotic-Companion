@@ -1,11 +1,5 @@
 # NeuroBot — Emotion Aware Neuro Adaptive Robotic Companion
 
-<p align="center">
-
-  <img src="assets/NeuroBot.png" alt="NeuroBot robot prototype" width="320"/>
-
-</p>
-
 NeuroBot is an **emotion-aware companion system** that combines real-time facial emotion recognition with a voice-based conversational agent to offer **supportive check-ins between therapy sessions**. It's built to be *helpful, transparent, and safety-first*—not a replacement for professional care.
 
 > **Scope note:** This is a research/educational prototype focused on human-centered interaction, logging, and safe supportive dialogue.
