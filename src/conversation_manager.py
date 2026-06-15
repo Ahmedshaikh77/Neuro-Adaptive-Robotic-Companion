@@ -7,10 +7,12 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Optional
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass  # python-dotenv is optional; env vars still work without it
 import openai
-
-load_dotenv()
 
 from src.emotion_engine import EmotionState
 

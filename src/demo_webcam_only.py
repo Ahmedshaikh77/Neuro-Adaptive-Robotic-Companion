@@ -20,7 +20,7 @@ def main():
     if not BEST_MODEL_PATH.exists():
         print(f"\nError: Model not found at {BEST_MODEL_PATH}")
         print("Please train the model first using:")
-        print("  python -m src.train_fer --csv-path <path-to-fer2013.csv> --epochs 30")
+        print("  python -m src.train_fer --data-root data/archive --epochs 30")
         sys.exit(1)
 
     # Run emotion engine main (which has webcam demo built-in)

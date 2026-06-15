@@ -367,3 +367,42 @@ Educational and research use. NeuroBot is **not** a substitute for professional 
 * PyTorch + torchvision for modeling
 * OpenAI (optional) for LLM capability
 * SpeechRecognition + pyttsx3 for voice I/O
+
+---
+
+## Adaptive Multimodal Sensing (Research Extension)
+
+This extension adds the "smart switch" research direction on top of the base
+companion: instead of always running every sensor, the robot decides **which
+modalities to run, moment by moment**, trading accuracy against latency and power.
+
+### New modules (`src/`)
+
+| File | Purpose |
+|------|---------|
+| `modality_base.py` | Common `Modality` interface + `ModalityResult`; plus a `SimulatedModality` for hardware-free testing |
+| `adaptive_gate.py` | The smart switch: `single` / `all_on` / `adaptive` strategies with reliability-weighted fusion |
+| `audio_kws.py` | On-device keyword spotting (Speech Commands) — modality #2 (replaces slow cloud STT) |
+| `gesture_engine.py` | Gesture recognition (Jester) — modality #3 |
+| `emotion_modality.py` | Adapter wrapping the existing face-emotion engine as a `Modality` |
+| `benchmark.py` | Latency (p50/p95) + Jetson `tegrastats` power measurement (graceful off-Jetson) |
+| `fault_injection.py` | Degraded-condition tests: low light, noise, occlusion, sensor dropout |
+
+### Try it now (no hardware, no trained model)
+
+```bash
+python -m src.demo_adaptive   # compares single vs all-on vs adaptive, with a Pareto table
+python selftest.py            # 18 checks; runs anywhere with numpy
+```
+
+The demo prints accuracy vs. latency vs. power for each strategy, in clean and
+degraded (dim-light) conditions, showing that the adaptive switch matches the
+best accuracy at lower cost and degrades gracefully when a sensor is impaired.
+
+### Notes
+
+- The model modules (`audio_kws`, `gesture_engine`, `emotion_modality`) import
+  `torch` **lazily**, so the rest of the toolkit runs without it. Install torch
+  (+ a trained checkpoint) to run real inference.
+- On the **Jetson Orin Nano**, install `torch`/`torchvision`/`torchaudio` from
+  the NVIDIA JetPack wheels, not PyPI.
