@@ -8,3 +8,6 @@ face_mediapipe_resnet18_randweights,1,18.51,21.156,19.001,7.86,8.2
 audio,2,5.895,30.817,10.051,7.486,7.974
 gesture,2,1.929,2.065,1.96,7.539,7.575
 face_mediapipe_resnet18_randweights,2,15.552,17.373,15.829,8.867,9.275
+audio,3,10.803,57.479,18.85,4.853,5.462
+gesture,3,3.193,3.515,3.283,5.296,5.382
+face_mediapipe_resnet18_randweights,3,25.243,40.28,28.251,6.343,6.589
