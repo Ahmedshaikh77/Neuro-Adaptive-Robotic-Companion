@@ -1,4 +1,3 @@
-cat > .gitignore << 'EOF'
 venv/
 __pycache__/
 *.pyc
@@ -8,6 +7,9 @@ data/
 logs/
 conv_logs/
 artifacts/
-EOF
 .vscode/
-.claude/
+.claude/data/
+data_gesture/
+SpeechCommands/
+*.tar.gz
+*.pt

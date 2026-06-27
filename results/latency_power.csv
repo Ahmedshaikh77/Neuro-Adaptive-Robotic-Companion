@@ -1,0 +1,4 @@
+modality,power_mode,p50_ms,p95_ms,mean_ms,avg_power_w,peak_power_w
+audio,0,7.473,18.15,9.745,5.532,6.259
+gesture,0,2.314,3.735,2.487,6.546,6.658
+face_mediapipe_resnet18_randweights,0,19.852,22.663,19.796,7.809,8.133
