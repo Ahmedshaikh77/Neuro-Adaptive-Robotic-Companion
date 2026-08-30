@@ -86,9 +86,9 @@ class KwsModality(Modality):
     """Keyword-spotting modality wrapping the local CNN."""
 
     name = "audio"
-    nominal_latency_ms = 35.0
-    nominal_power_w = 1.2
-    reliability = 0.90
+    nominal_latency_ms = 7.5   # measured p50 on Orin Nano, 15W
+    nominal_power_w = 5.5       # measured avg W on Orin Nano, 15W
+    reliability = 0.906        # measured Speech Commands val accuracy
 
     def __init__(self, checkpoint_path: Optional[str] = None,
                  keywords: Optional[List[str]] = None, device: Optional[str] = None):

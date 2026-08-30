@@ -18,9 +18,9 @@ class EmotionModality(Modality):
     """Face-emotion sensing as a Modality (modality #1)."""
 
     name = "face"
-    nominal_latency_ms = 18.0
-    nominal_power_w = 2.0
-    reliability = 0.66
+    nominal_latency_ms = 19.9  # measured p50 on Orin Nano, 15W
+    nominal_power_w = 7.8       # measured avg W on Orin Nano, 15W
+    reliability = 0.635        # measured FER-2013 test accuracy
 
     def __init__(self, model_path: Optional[str] = None, smoothing_window: int = 5):
         from src.emotion_engine import EmotionEngine

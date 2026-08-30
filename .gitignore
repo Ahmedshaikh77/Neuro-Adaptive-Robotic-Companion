@@ -11,3 +11,5 @@ artifacts/
 EOF
 .vscode/
 .claude/
+# paper drafts stay local
+NeuroBot_Paper_Package/

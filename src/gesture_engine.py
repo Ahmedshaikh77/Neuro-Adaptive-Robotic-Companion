@@ -50,9 +50,9 @@ class GestureModality(Modality):
     """Gesture modality wrapping the temporal CNN."""
 
     name = "gesture"
-    nominal_latency_ms = 45.0
-    nominal_power_w = 2.5
-    reliability = 0.85
+    nominal_latency_ms = 2.3   # measured p50 on Orin Nano, 15W
+    nominal_power_w = 6.5       # measured avg W on Orin Nano, 15W
+    reliability = 0.50         # PLACEHOLDER: gesture model not yet trained
 
     def __init__(self, checkpoint_path: Optional[str] = None,
                  gestures: Optional[List[str]] = None,

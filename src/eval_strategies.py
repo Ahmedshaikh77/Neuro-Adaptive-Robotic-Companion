@@ -26,6 +26,8 @@ import numpy as np
 
 from src.benchmark import benchmark_runs, PowerMonitor, format_pareto_table
 
+# Face/emotion is intentionally NOT mapped here: emotion is not an intent, so the
+# facial modality is excluded from the intent vote (see paper, Sec. IV).
 CLASS_TO_COMMAND = {
     "audio": {"yes": "yes", "no": "no", "up": "up", "down": "down",
               "left": "left", "right": "right", "stop": "stop", "go": "go"},
@@ -86,13 +88,37 @@ def part_b_latency_power(mods, n, warmup, out):
     return rows
 
 
-def run_condition(condition, gate, paired_events):
-    """(C) Fill this: iterate your paired multimodal events, run each strategy,
-    accumulate with benchmark.StrategyResult. See src/demo_adaptive.py for the
-    exact pattern; swap the SimulatedModality frames for your real inputs."""
-    raise NotImplementedError(
-        "Provide paired test events for the shared command task, then mirror "
-        "src/demo_adaptive.run_condition with real inputs.")
+def run_condition(gate, events, strategies=None):
+    """Run single / all-on / adaptive over a list of paired multimodal events and
+    return per-strategy summaries.
+
+    Each event is a dict:
+        {"truth": <intent label>,
+         "frame": {<modality_name>: <input for that modality>, ...}}
+
+    The modalities on `gate` must emit labels in the SHARED INTENT space (wrap the
+    real KWS/gesture modalities so their infer() returns an intent label via
+    CLASS_TO_COMMAND, or use SimulatedModality for a protocol dry-run). This is a
+    complete evaluator: give it real paired data and it produces the real
+    single/all-on/adaptive accuracy, latency, and energy.
+    """
+    from src.benchmark import StrategyResult
+    names = [m.name for m in gate.modalities]
+    results = {f"single:{n}": StrategyResult(f"single:{n}") for n in names}
+    results["all_on"] = StrategyResult("all_on")
+    results["adaptive"] = StrategyResult("adaptive")
+
+    for ev in events:
+        truth, frame = ev["truth"], ev["frame"]
+        for n in names:
+            d = gate.run_single(frame, n)
+            results[f"single:{n}"].add(d.final_label, truth, d.total_latency_ms, d.total_energy_j)
+        d_all = gate.run_all(frame)
+        results["all_on"].add(d_all.final_label, truth, d_all.total_latency_ms, d_all.total_energy_j)
+        d_ad = gate.decide_and_run(frame)
+        results["adaptive"].add(d_ad.final_label, truth, d_ad.total_latency_ms, d_ad.total_energy_j)
+
+    return {k: v.summary() for k, v in results.items()}
 
 
 def main():
