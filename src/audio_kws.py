@@ -94,12 +94,18 @@ class KwsModality(Modality):
                  keywords: Optional[List[str]] = None, device: Optional[str] = None):
         import torch
         from src.config import get_device
-        self.keywords = keywords or DEFAULT_KEYWORDS
         self.device = device or get_device()
-        self.model = build_kws_model(len(self.keywords)).to(self.device)
         if checkpoint_path:
             ckpt = torch.load(checkpoint_path, map_location=self.device)
+            # read the label set saved at training time so the classifier size
+            # matches the checkpoint (training uses a different count than the
+            # default keyword list)
+            self.keywords = ckpt.get("keywords") or keywords or DEFAULT_KEYWORDS
+            self.model = build_kws_model(len(self.keywords)).to(self.device)
             self.model.load_state_dict(ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt)
+        else:
+            self.keywords = keywords or DEFAULT_KEYWORDS
+            self.model = build_kws_model(len(self.keywords)).to(self.device)
         self.model.eval()
 
     def infer(self, frame) -> ModalityResult:

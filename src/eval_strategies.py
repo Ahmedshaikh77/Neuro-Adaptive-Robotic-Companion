@@ -38,6 +38,45 @@ CLASS_TO_COMMAND = {
 CONDITIONS = ["clean", "low_light", "audio_noise", "occlusion", "dropout"]
 
 
+from dataclasses import replace
+from src.modality_base import Modality
+from src.adaptive_gate import AdaptiveGate
+
+
+class IntentAdapter(Modality):
+    """Wrap a base modality so its native prediction is mapped into the shared
+    intent vocabulary via CLASS_TO_COMMAND. A label with no intent mapping becomes
+    None, i.e. it casts no vote. This is what makes Equation 2 operate over intents
+    rather than over each modality's own classes."""
+
+    def __init__(self, base, intent_map):
+        self.base = base
+        self.intent_map = intent_map
+        self.name = base.name
+        self.nominal_latency_ms = base.nominal_latency_ms
+        self.nominal_power_w = base.nominal_power_w
+        self.reliability = base.reliability
+
+    def infer(self, frame):
+        r = self.base.infer(frame)
+        return replace(r, label=self.intent_map.get(r.label))
+
+    def close(self):
+        self.base.close()
+
+
+def build_intent_gate(mods, **gate_kwargs):
+    """Build the adaptive gate over ONLY the intent-mapped modalities (audio and
+    gesture), each wrapped so it emits intent labels. The facial modality is
+    intentionally excluded from the intent vote (paper, Sec. IV); if it is loaded
+    it is used for the cost profile only, not the gate."""
+    intent_mods = [IntentAdapter(mods[n], CLASS_TO_COMMAND[n])
+                   for n in mods if n in CLASS_TO_COMMAND]
+    if not intent_mods:
+        raise SystemExit("need at least one intent-mapped modality (audio/gesture)")
+    return AdaptiveGate(intent_mods, **gate_kwargs)
+
+
 def load_modalities(args):
     mods = {}
     if args.face:
