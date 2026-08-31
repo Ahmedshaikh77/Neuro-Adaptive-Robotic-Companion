@@ -94,6 +94,13 @@ body:
         - label: Duke Qualtrics was involved.
         - label: Another provider was involved and is described below.
   - type: textarea
+    id: provider_details
+    attributes:
+      label: Required external-provider disclosure
+      description: State "none" or list every provider involved, what data crossed each boundary, and the name and details for any other provider.
+    validations:
+      required: true
+  - type: textarea
     id: data_safety
     attributes:
       label: Sensitive-data and safety impact
