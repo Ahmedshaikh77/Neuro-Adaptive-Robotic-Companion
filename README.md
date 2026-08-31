@@ -131,7 +131,7 @@ All items below are future work suitable for scoped contributor contributions:
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance. That document is planned as part of the repository documentation work.
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.
 
 ## Acknowledgments
 
