@@ -2,6 +2,19 @@
 
 `requirements.txt` contains minimum dependency versions, not a pinned environment. Use an isolated environment, grant camera and microphone permissions only when a procedure needs them, and do not place credentials in tracked files. The workflows below are existing commands and code paths, not a claim that the uncommitted models or datasets are available in this checkout.
 
+## 0. Environment setup
+
+Create and verify an isolated environment, then install the repository's lower-bound requirements:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -c "import sys; assert sys.prefix != sys.base_prefix, 'activate .venv first'; print(sys.executable)"
+python -m pip install -r requirements.txt
+```
+
+These requirements are not pinned. On Jetson, install the NVIDIA JetPack-compatible `torch`, `torchvision`, and `torchaudio` wheels in the activated environment before the requirements command, and stop if dependency resolution would replace them with unsuitable PyPI wheels. PyAudio, camera access, and other platform integrations can require additional platform-specific setup.
+
 ## 1. Source-only self-test
 
 - **Requirements:** Python and NumPy. No dataset, checkpoint, camera, microphone, GPU, API access, or Jetson hardware is required.
@@ -72,25 +85,36 @@
 - **Cleanup:** Treat the dataset, checkpoint, and generated confusion matrices as local research artifacts. Retain their license/provenance if reporting them; otherwise remove local copies that are no longer authorized or needed.
 - **Evidence status:** Model-quality evaluation when run with retained dataset and checkpoint provenance. No corresponding committed output artifact exists in this repository.
 
+### FER training weight provenance
+
+`python -m src.train_fer` initializes torchvision ResNet18 with `models.ResNet18_Weights.IMAGENET1K_V1`. If that pretrained weight is not already cached, torchvision can download it from its configured upstream source during training. For every FER training run, record the torchvision version, exact weight enum (`IMAGENET1K_V1`), whether the weight came from an upstream download or an existing cache, and the hash of the cached weight artifact. Retain this provenance with the training checkpoint and dataset record.
+
 ## 6. Jetson compute benchmark
 
 - **Requirements:** A Jetson environment with JetPack and Jetson-compatible `torch`, `torchvision`, and `torchaudio` installed through the NVIDIA JetPack path; remaining dependencies from `requirements.txt`; `tegrastats` available for board-power sampling; and local checkpoints for the checkpointed evaluator command. The committed benchmark CSV was instead produced from dummy inputs with audio and gesture uncheckpointed and a face path labelled random weights.
 - **Existing evaluator command:**
 
   ```bash
-  python -m src.eval_strategies --face artifacts/best_fer_resnet.pt --kws artifacts/kws.pt --gesture artifacts/gesture.pt --bench-n 200
+  python -m src.eval_strategies --face artifacts/best_fer_resnet.pt --kws artifacts/kws.pt --gesture artifacts/gesture.pt --bench-n 200 --out artifacts/benchmark-run
   ```
+
+  This writes `artifacts/benchmark-run/latency_power.csv` rather than the tracked `results/latency_power.csv`.
 
 - **Existing multi-mode driver commands:**
 
+  **Warning:** `bench_modes.py` writes and appends to the tracked `results/latency_power.csv`. Before running it, back up that file or use an intentional evidence-update workflow that reviews and retains the CSV change. Do not run it casually against the committed evidence artifact.
+
   ```bash
-  sudo nvpmodel -m N && sudo jetson_clocks
+  sudo nvpmodel -q
+  # Replace <mode-id> with a valid numeric mode reported for this device.
+  sudo nvpmodel -m <mode-id>
+  sudo jetson_clocks
   python3 bench_modes.py
   ```
 
-- **Expected output:** The evaluator prints modality cost summaries and writes `latency_power.csv` in its `--out` directory, which defaults to `results`. The multi-mode driver detects the current `nvpmodel` mode, appends missing modality/mode rows to `results/latency_power.csv`, and prints the full CSV. `tegrastats` absence is reported as unavailable by the helper and yields zero sampled power rather than a board-power measurement.
+- **Expected output:** The evaluator prints modality cost summaries and writes `latency_power.csv` in its explicit run-specific `--out` directory. The multi-mode driver detects the current `nvpmodel` mode, appends missing modality/mode rows to `results/latency_power.csv`, and prints the full CSV. `tegrastats` absence is reported as unavailable by the helper and yields zero sampled power rather than a board-power measurement.
 - **Data boundary:** Benchmark inputs are local NumPy dummy waveform, frame-stack, and image values. No participant data or cloud provider is involved.
-- **Cleanup:** Do not overwrite the committed CSV when collecting a new run without first copying it to a run-specific evidence location. Remove local benchmark outputs that should not be retained, and restore the device's intended `nvpmodel` and clock state after testing. The command does not use cloud credentials.
+- **Cleanup:** Keep run-specific evaluator outputs under their artifact directory. For the multi-mode driver, preserve the backed-up CSV and review the tracked evidence change before retaining it. Restore the device's intended `nvpmodel` and clock state after testing. The command does not use cloud credentials.
 - **Evidence status:** Compute benchmark. It supports latency and board-power recording for the specific recorded environment, inputs, and model state, not task accuracy or adaptive-strategy quality.
 
 ### Required metadata for every future Jetson run

@@ -50,13 +50,24 @@ The targets are deliberately not all the same. In [`src/eval_strategies.py`](src
 
 Read [reproduction notes](docs/reproduction.md) before running a workflow. `requirements.txt` specifies lower version bounds, not a fully pinned or fully tested environment. Install dependencies in an isolated environment appropriate to your platform, and expect platform-specific setup for PyAudio, camera access, and Jetson packages.
 
+Create and verify an isolated environment before installing the lower-bound requirements:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -c "import sys; assert sys.prefix != sys.base_prefix, 'activate .venv first'; print(sys.executable)"
+python -m pip install -r requirements.txt
+```
+
+On Jetson, install the JetPack-compatible `torch`, `torchvision`, and `torchaudio` wheels in this environment before the requirements command, and stop if dependency resolution would replace them with unsuitable PyPI wheels.
+
 | Mode | Command | Datasets and checkpoints | Device, service, and credential boundary |
 | --- | --- | --- | --- |
 | Source-only self-test | `python selftest.py` | No dataset or checkpoint. It uses simulated modalities and synthetic events. | No camera, microphone, cloud service, credential, or Jetson is required. |
 | Webcam-only emotion demo | `python -m src.demo_webcam_only` | Requires a locally available FER face checkpoint at `artifacts/best_fer_resnet.pt`; no inference dataset is needed. | Requires a webcam and local camera permission. No cloud service is used by this demo. |
 | Voice and optional cloud conversation demo | `python -m src.demo_voice_session` | Requires the same local face checkpoint; no inference dataset is needed. | Requires webcam and microphone access. Google Speech Recognition processes microphone audio. An `OPENAI_API_KEY` and network access are required only for the OpenAI conversation path; otherwise the code uses local fallback replies. |
 | Simulated adaptive-gate demo | `python -m src.demo_adaptive` | No dataset or checkpoint. The modality behavior and comparison values are simulated. | No camera, microphone, cloud service, credential, or Jetson is required. |
-| Jetson compute benchmark | `python -m src.eval_strategies --face artifacts/best_fer_resnet.pt --kws artifacts/kws.pt --gesture artifacts/gesture.pt --bench-n 200` | The command expects local checkpoints when supplied. The committed CSV instead reflects dummy-input compute measurement with audio and gesture uncheckpointed and face labeled random weights. | Requires a Jetson environment and `tegrastats` for board-power sampling. Install Jetson-compatible `torch`, `torchvision`, and `torchaudio` through the NVIDIA JetPack path rather than assuming PyPI wheels are suitable. |
+| Jetson compute benchmark | `python -m src.eval_strategies --face artifacts/best_fer_resnet.pt --kws artifacts/kws.pt --gesture artifacts/gesture.pt --bench-n 200 --out artifacts/benchmark-run` | The command expects local checkpoints when supplied and writes its new CSV to the run-specific artifact directory. The committed CSV instead reflects dummy-input compute measurement with audio and gesture uncheckpointed and face labeled random weights. | Requires a Jetson environment and `tegrastats` for board-power sampling. Install Jetson-compatible `torch`, `torchvision`, and `torchaudio` through the NVIDIA JetPack path rather than assuming PyPI wheels are suitable. |
 
 ### Model training and evaluation workflows
 
@@ -64,7 +75,7 @@ These workflows create local data and artifacts that are absent from this checko
 
 | Workflow | Command | Required local inputs |
 | --- | --- | --- |
-| Train FER face model | `python -m src.train_fer --data-root data/archive --epochs 30` | A folder-based FER-2013-style train/test dataset under `data/archive`; output checkpoint is written under `artifacts/`. |
+| Train FER face model | `python -m src.train_fer --data-root data/archive --epochs 30` | A folder-based FER-2013-style train/test dataset under `data/archive`; output checkpoint is written under `artifacts/`. The implementation initializes torchvision ResNet18 with `ResNet18_Weights.IMAGENET1K_V1`, which may download upstream weights if uncached. Record the torchvision version, weight enum, source or cache status, and cached weight-artifact hash for every training run. |
 | Evaluate FER face model | `python -m src.eval_fer --data-root data/archive --checkpoint artifacts/best_fer_resnet.pt` | The same dataset and a trained face checkpoint. |
 | Train keyword-spotting model | `python -m src.train_kws --epochs 20 --out artifacts/kws.pt` | torchaudio downloads Speech Commands on first use, approximately 2.3 GB; resulting checkpoint is local. |
 | Train gesture model | `python -m src.train_gesture --data-root data_gesture --epochs 15 --out artifacts/gesture.pt` | A Jester-style train/test gesture folder tree and its local checkpoint output. |
