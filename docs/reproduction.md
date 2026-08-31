@@ -105,12 +105,16 @@ These requirements are not pinned. On Jetson, install the NVIDIA JetPack-compati
   **Warning:** `bench_modes.py` writes and appends to the tracked `results/latency_power.csv`. Before running it, back up that file or use an intentional evidence-update workflow that reviews and retains the CSV change. Do not run it casually against the committed evidence artifact.
 
   ```bash
+  grep -E '^[[:space:]]*< POWER_MODEL[[:space:]]+ID=' /etc/nvpmodel.conf
   sudo nvpmodel -q
-  # Replace <mode-id> with a valid numeric mode reported for this device.
-  sudo nvpmodel -m <mode-id>
+  # Replace the literal below with one numeric ID listed by the config command before continuing.
+  benchmark_power_mode=REPLACE_WITH_SUPPORTED_NUMERIC_ID
+  sudo nvpmodel -m "$benchmark_power_mode"
   sudo jetson_clocks
   python3 bench_modes.py
   ```
+
+  The config command lists supported numeric IDs for this device; `sudo nvpmodel -q` reports the current mode only.
 
 - **Expected output:** The evaluator prints modality cost summaries and writes `latency_power.csv` in its explicit run-specific `--out` directory. The multi-mode driver detects the current `nvpmodel` mode, appends missing modality/mode rows to `results/latency_power.csv`, and prints the full CSV. `tegrastats` absence is reported as unavailable by the helper and yields zero sampled power rather than a board-power measurement.
 - **Data boundary:** Benchmark inputs are local NumPy dummy waveform, frame-stack, and image values. No participant data or cloud provider is involved.
