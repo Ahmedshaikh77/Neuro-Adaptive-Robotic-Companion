@@ -1,0 +1,87 @@
+name: Feature request
+description: Propose a scoped improvement with evidence and responsible-use implications.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include credentials, participant records, raw conversations, identifiable audio or video, survey data, or personal information. Do not present unreviewed clinical claims as evidence.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Engineering problem and proposed outcome
+      description: What concrete problem should this solve?
+    validations:
+      required: true
+  - type: input
+    id: affected_path
+    attributes:
+      label: Affected path or component
+      placeholder: src/adaptive_gate.py or docs/reproduction.md
+    validations:
+      required: true
+  - type: textarea
+    id: user
+    attributes:
+      label: Intended user and use boundary
+      description: Identify the intended user and clarify that NeuroBot is not a clinical, diagnostic, therapeutic, or crisis service unless an appropriately reviewed change establishes otherwise.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and alternatives considered
+      description: Link or summarize reviewable evidence. Distinguish measured evidence from simulation, configuration, or expectations.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: Include test, evaluation, and success criteria. State the execution mode and environment required.
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Model and data provenance
+      description: Identify datasets, checkpoints, sources, licenses, versions or hashes, splits, and trained, random, absent, or synthetic model status. Say not applicable if none.
+    validations:
+      required: true
+  - type: textarea
+    id: compute
+    attributes:
+      label: Compute and hardware impact
+      description: Describe expected latency, power, memory, hardware, or Jetson impact. Say not applicable for documentation or source-only work.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and external-provider data flow
+      description: Describe data collected, retained, or transmitted, including any Google Speech Recognition, OpenAI, Qualtrics, or other provider involvement. Say none if there is no data-flow change.
+    validations:
+      required: true
+  - type: textarea
+    id: fairness
+    attributes:
+      label: Bias and fairness impact
+      description: Describe affected groups, evaluation coverage, limitations, and mitigations. Say none known with rationale if not applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: mental_health
+    attributes:
+      label: Mental-health safety impact
+      description: Describe possible overreliance, crisis-language, emotion-inference, or user-safety implications and proposed safeguards. Say none known with rationale if not applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: participants
+    attributes:
+      label: Human-participant implications
+      description: State whether the feature involves participants, recordings, surveys, or personal data. Such activity requires an appropriate institutional determination before it begins and, where required, an approved protocol and meaningful consent process.
+    validations:
+      required: true

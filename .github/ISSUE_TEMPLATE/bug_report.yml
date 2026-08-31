@@ -1,0 +1,102 @@
+name: Bug report
+description: Report a reproducible problem without sharing sensitive data.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include API keys, credentials, transcripts, faces, voices, survey data, participant records, or other personal information. Redact logs and use synthetic or authorized de-identified inputs.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Briefly describe the problem and the affected component or path.
+      placeholder: The voice-session fallback is not used when...
+    validations:
+      required: true
+  - type: dropdown
+    id: execution_mode
+    attributes:
+      label: Execution mode
+      options:
+        - Source-only self-test
+        - Webcam-only emotion demo
+        - Voice session
+        - Simulated adaptive-gate demo
+        - Training or model evaluation
+        - Jetson compute benchmark
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Python version, and relevant dependency versions.
+      placeholder: macOS 14.6, Python 3.11.9, torch 2.x, mediapipe 0.x
+    validations:
+      required: true
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Hardware and permissions, if relevant
+      description: Complete only when the workflow uses hardware. Include device model, accelerator, Jetson or JetPack, camera or microphone permissions, power mode, or tegrastats availability as applicable.
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Dataset and checkpoint status
+      description: State whether a dataset or checkpoint was used. If so, provide authorized provenance, version or hash, and whether weights were trained, random, or absent.
+      placeholder: No dataset or checkpoint. Simulated workflow.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command
+      description: Include relevant non-secret flags and configuration.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and redacted logs
+      description: Remove all sensitive material before pasting logs.
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: providers
+    attributes:
+      label: External providers involved
+      options:
+        - label: No external provider was involved.
+        - label: Google Speech Recognition was involved.
+        - label: OpenAI was involved.
+        - label: Duke Qualtrics was involved.
+        - label: Another provider was involved and is described below.
+  - type: textarea
+    id: data_safety
+    attributes:
+      label: Sensitive-data and safety impact
+      description: State whether sensitive data was involved and describe any privacy, bias or fairness, mental-health safety, or human-participant impact. If none, say none known.
+    validations:
+      required: true
